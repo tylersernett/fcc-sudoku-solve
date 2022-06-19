@@ -13,6 +13,17 @@ module.exports = function (app) {
     
   app.route('/api/solve')
     .post((req, res) => {
+      let puzzleString = req.body.puzzle;
+      if (!puzzleString) {
+        return res.json({ error: 'Required field missing' });
+      }
 
+      let validation = solver.validate(puzzleString)
+      if (validation === true) {
+
+      } else {
+        return res.json(validation)
+      }
+      
     });
 };
