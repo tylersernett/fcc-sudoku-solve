@@ -16,15 +16,29 @@ class SudokuSolver {
   }
 
   checkRowPlacement(puzzleString, row, column, value) {
+    let rows = Array(9).fill(''); //9-length empty string array
+    for (let i = 0; i < 81; i++) {
+      rows[Math.floor(i / 9)] += puzzleString[i];
+    }
+    console.log(rows)
 
   }
 
   checkColPlacement(puzzleString, row, column, value) {
-
+    let cols = Array(9).fill(''); //9-length empty string array
+    for (let i = 0; i < 81; i++) {
+      cols[i % 9] += puzzleString[i];
+    }
+    console.log(cols)
   }
 
-  checkRegionPlacement(puzzleString, row, column, value) {
-
+  checkRegPlacement(puzzleString, row, column, value) {
+    let regs = Array(9).fill(''); //9-length empty string array
+    for (let i = 0; i < 81; i++) {
+      regs[(Math.floor(i / 3) % 3) + 3*(Math.floor(i/(3*3*3)))] += puzzleString[i];
+    }
+    
+    console.log(regs)
   }
 
   solve(puzzleString) {
