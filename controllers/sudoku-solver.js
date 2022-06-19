@@ -21,7 +21,7 @@ class SudokuSolver {
       rows[Math.floor(i / 9)] += puzzleString[i];
     }
     console.log(rows)
-
+    return;
   }
 
   checkColPlacement(puzzleString, row, column, value) {
@@ -30,19 +30,26 @@ class SudokuSolver {
       cols[i % 9] += puzzleString[i];
     }
     console.log(cols)
+    return;
   }
 
   checkRegPlacement(puzzleString, row, column, value) {
     let regs = Array(9).fill(''); //9-length empty string array
     for (let i = 0; i < 81; i++) {
-      regs[(Math.floor(i / 3) % 3) + 3*(Math.floor(i/(3*3*3)))] += puzzleString[i];
+      regs[(Math.floor(i / 3) % 3) + 3 * (Math.floor(i / (81 / 3)))] += puzzleString[i];
+      //    (i // widthSmall) % widthBig    +    widthBig * ( i // (TOTAL/3) ) 
+      //regs[Math.floor( (Math.floor(i / 3) )  / 3 )] += puzzleString[i];
+      //i:    0 1 2   3 4 5  6 7 8     9  10 11   ... 27 28 29
+      //i/3:  0 0 0   1 1 1  2 2 2     3  3   3        9  9  9 
+      ////%3  0 0 0   1 1 1  2 2 2     0  0   0            0
     }
-    
+
     console.log(regs)
+    return;
   }
 
   solve(puzzleString) {
-
+    return;
   }
 }
 
