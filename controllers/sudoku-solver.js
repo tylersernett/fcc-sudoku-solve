@@ -21,7 +21,10 @@ class SudokuSolver {
       rows[Math.floor(i / 9)] += puzzleString[i];
     }
     console.log(rows)
-    return;
+    if (rows[row].includes(value)) {
+      return false
+    }
+    return value;
   }
 
   checkColPlacement(puzzleString, row, column, value) {
@@ -30,7 +33,10 @@ class SudokuSolver {
       cols[i % 9] += puzzleString[i];
     }
     console.log(cols)
-    return;
+    if (cols[column].includes(value)) {
+      return false
+    }
+    return value;
   }
 
   checkRegPlacement(puzzleString, row, column, value) {
@@ -45,10 +51,16 @@ class SudokuSolver {
     }
 
     console.log(regs)
-    return;
+    const reg = Math.floor(column/3) + Math.floor(row/3)*3;
+    if (regs[reg].includes(value)) {
+      return false
+    }
+    return value;
   }
 
   solve(puzzleString) {
+    //check next empty cell -- find non-union of [1-9], row, col, region 
+    //if only one possible value, update puzzleString
     return;
   }
 }
