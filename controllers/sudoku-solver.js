@@ -21,6 +21,11 @@ class SudokuSolver {
       rows[Math.floor(i / 9)] += puzzleString[i];
     }
     console.log(rows)
+    //check for self
+    console.log(rows[row][column])
+    if (rows[row][column] == value) {
+      return value
+    }
     if (rows[row].includes(value)) {
       return false
     }
@@ -33,6 +38,9 @@ class SudokuSolver {
       cols[i % 9] += puzzleString[i];
     }
     console.log(cols)
+    if (cols[column][row] == value) {
+      return value
+    }
     if (cols[column].includes(value)) {
       return false
     }
@@ -42,7 +50,7 @@ class SudokuSolver {
   checkRegPlacement(puzzleString, row, column, value) {
     let regs = Array(9).fill(''); //9-length empty string array
     for (let i = 0; i < 81; i++) {
-      regs[(Math.floor(i / 3) % 3) + 3 * (Math.floor(i / (81 / 3)))] += puzzleString[i];
+      regs[(Math.floor(i / 3) % 3) + Math.floor(i / (81 / 3))*3] += puzzleString[i];
       //    (i // widthSmall) % widthBig    +    widthBig * ( i // (TOTAL/3) ) 
       //regs[Math.floor( (Math.floor(i / 3) )  / 3 )] += puzzleString[i];
       //i:    0 1 2   3 4 5  6 7 8     9  10 11   ... 27 28 29
@@ -52,6 +60,16 @@ class SudokuSolver {
 
     console.log(regs)
     const reg = Math.floor(column/3) + Math.floor(row/3)*3;
+    //   0 1 2    3 4 5    6 7 8
+    //0| 0 1 2    0 1 2
+    //1| 3 4 5
+    //2| 6 7 8
+    //3| 0 1 2    0 1 2
+    //4| 3 4 5    3 4 5
+    const index = (column % 3) + (row % 3)*3;
+    if (regs[reg][index] == value) {
+      return value;
+    }
     if (regs[reg].includes(value)) {
       return false
     }
