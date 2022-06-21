@@ -11,6 +11,7 @@ class SudokuSolver {
       console.log('bad char')
       return { error: 'Invalid characters in puzzle' }
     }
+    //add logic to check for repeats in a row/col/reg?
     console.log('valid')
     return true
   }
@@ -79,8 +80,9 @@ class SudokuSolver {
 
   solve(puzzleString) {
     let stringCopy = puzzleString.split('');// (' ' + puzzleString).slice(1);
+    let baseArray = puzzleString.split('');
     for (let i = 0; i < 81; i++) {
-      //console.log(stringCopy)
+      console.log(i + stringCopy)
       if (stringCopy[i] == ".") {
         let irow = Math.floor(i / 9);
         let icol = i % 9
@@ -99,10 +101,10 @@ class SudokuSolver {
           const testVal = this.checkRegPlacement(stringCopy, irow, icol, j);
           if (testVal) { regVals.push(testVal) };
         }
-        if (rowVals.length == 0 || colVals.length == 0 || regVals.length == 0) {
-          console.log('exit on all empty arrays')
-          return false;
-        }
+        // if (rowVals.length == 0 || colVals.length == 0 || regVals.length == 0) {
+        //   console.log('exit on all empty arrays')
+        //   return false;
+        // }
         console.log('arrays:' + i)
         console.log(rowVals, colVals, regVals)
         //intersection:
@@ -117,8 +119,20 @@ class SudokuSolver {
     }
 
     if (stringCopy.includes('.')) {
-      return this.solve(stringCopy.join(''));
-    } else {
+      console.log('EVAL')
+      console.log(stringCopy)
+      console.log(baseArray)
+      //check if two arrays are the same
+      let is_same = (stringCopy.length == baseArray.length) && stringCopy.every(function (element, index) {
+        return element === baseArray[index];
+      });
+      if (is_same) { //infinite recursion, unsolvable
+        return false;
+      } else {
+        return this.solve(stringCopy.join(''));
+        // return false;
+      }
+    } else { //!!!is this still needed?
       return stringCopy.join('');
     }
 
