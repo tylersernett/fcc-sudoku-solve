@@ -23,10 +23,10 @@ module.exports = function (app) {
         console.log('inval coord length')
         return res.json({ error: 'Invalid coordinate' })
       }
-      let row = coordinate[0].toUpperCase().charCodeAt() - 65; //unicode "A" start
-      let col = coordinate[1].charCodeAt() - 49; //unicode "1" start
+      let row = coordinate[0].toUpperCase().charCodeAt() - 65; //normalize to 0: 65 = unicode "A" start
+      let col = coordinate[1].charCodeAt() - 49; //normalize to 0: 49 = unicode "1" start
       console.log(row, col, value)
-      if ( (row < 0) || (row > 8) || (col < 0) || (col > 8)) {
+      if ((row < 0) || (row > 8) || (col < 0) || (col > 8)) {
         console.log('inval coord')
         return res.json({ error: 'Invalid coordinate' })
       }
@@ -37,7 +37,7 @@ module.exports = function (app) {
         return res.json({ error: 'Invalid value' });
       }
 
-      
+
       let validation = solver.validate(puzzleString)
       let conflicts = [];
       if (validation === true) {
@@ -51,9 +51,9 @@ module.exports = function (app) {
           conflicts.push("region")
         }
         if (conflicts.length > 0) {
-          return res.json({'valid': false, 'conflict': conflicts});
-        } else {
-          return res.json({'valid': true});
+          return res.json({ 'valid': false, 'conflict': conflicts });
+        } else { //if conflicts array is still empty, then it's valid
+          return res.json({ 'valid': true });
         }
       } else {
         console.log('inval puz')
@@ -71,7 +71,15 @@ module.exports = function (app) {
 
       let validation = solver.validate(puzzleString)
       if (validation === true) {
-        return {}
+        const solved = solver.solve(puzzleString);
+        console.log(solved)
+        if (solved != false) {
+          console.log('solved!')
+          console.log(solved)
+          return res.json({ solution: solved });
+        } else {
+          return res.json({ error: 'Puzzle cannot be solved' })
+        }
       } else {
         console.log('inval puz')
         return res.json(validation)
